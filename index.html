@@ -337,8 +337,14 @@ img.gfx-fill { width:100%; height:auto; display:block; }
 .art-row-5 { display:flex; flex-wrap:nowrap; overflow:hidden; }
 .art-row-5 .art-img { height:300px; width:auto; flex-shrink:1; min-width:0; }
 @media (max-width:640px) {
-  .art-row-4, .art-row-3, .art-row-5 { grid-template-columns:repeat(2,1fr); }
+  .art-row-4, .art-row-3 { grid-template-columns:repeat(2,1fr); }
   .art-row-2 { grid-template-columns:1fr; }
+  .art-row-5 { display:grid; grid-template-columns:repeat(2,1fr); overflow:visible; }
+  .art-row-5 .art-img { height:auto; width:100%; min-width:0; }
+  .art-row-flex { flex-wrap:wrap; }
+  .art-row-flex .art-img { flex:1 1 calc(50% - 6px); height:auto !important; width:100%; }
+  .art-row-short { flex-wrap:wrap; }
+  .art-row-short .art-img { flex:1 1 100%; height:auto !important; width:100%; }
 }
 .art-img { width:100%; height:auto; display:block; }
 
@@ -659,7 +665,7 @@ footer {
       <div class="art-row art-row-5">
         <img src="images/graphicdesign/a21.png" alt="Art 21" class="art-img" loading="lazy">
         <img src="images/graphicdesign/a22.png" alt="Art 22" class="art-img" loading="lazy">
-        <img src="images/graphicdesign/a23.png" alt="Art 23" class="art-img" loading="lazy">
+        <img src="images/graphicdesign/a23.png" alst="Art 23" class="art-img" loading="lazy">
         <img src="images/graphicdesign/a24.png" alt="Art 24" class="art-img" loading="lazy">
         <img src="images/graphicdesign/a25.png" alt="Art 25" class="art-img" loading="lazy">
       </div>
