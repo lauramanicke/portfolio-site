@@ -158,6 +158,15 @@ i[data-lucide] svg { stroke:currentColor; fill:none; }
 .cs-2col { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2.5rem, 6vw, 6rem); align-items: start; margin-top: clamp(2.5rem, 5vw, 4rem); }
 @media (max-width: 720px) { .cs-2col { grid-template-columns: 1fr; gap: 2rem; } }
 
+/* ── website design gallery ──────────────────────────── */
+.wd-gallery { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.8rem; }
+.wd-row { display: flex; gap: 1rem; justify-content: center; align-items: flex-start; flex-wrap: wrap; }
+@media (max-width: 720px) {
+  .wd-row .cs-img { flex: 1 1 calc(50% - 0.5rem); min-width: 0; }
+  .wd-row .cs-img img { width: 100% !important; height: auto !important; display: block; }
+  .wd-row--thirds .cs-img { flex: 1 1 calc(33% - 0.67rem); }
+}
+
 /* ── callout ─────────────────────────────────────────── */
 .cs-callout { padding: 1.8rem 2.4rem; background: var(--b2); border-left: 3px solid var(--red); margin: clamp(2rem, 4vw, 3rem) 0 0; }
 .cs-callout p { font-size: clamp(1rem, 2vw, 1.35rem); font-weight: 300; color: var(--ink); line-height: 1.5; font-style: italic; }
@@ -340,28 +349,28 @@ footer { background: rgba(30,18,12,1); padding: clamp(4rem,9vw,7rem) var(--pad);
 <!-- ── website sections ──────────────────────────────────── -->
 <section class="cs-sec" style="background:var(--w); padding-top:clamp(2rem,5vw,3.5rem)">
   <span class="cs-lbl rv">Website Design</span>
-  <div style="display:flex; flex-direction:column; gap:1rem; margin-top:1.8rem">
+  <div class="wd-gallery">
     <!-- 01 -->
-    <div class="rv" style="display:flex; gap:1rem; justify-content:center; align-items:flex-start">
-      <div class="cs-img" style="flex-shrink:0"><img src="images/webdesign/01.png" alt="01" style="height:500px;width:auto;display:block;"></div>
+    <div class="wd-row rv">
+      <div class="cs-img"><img src="images/webdesign/01.png" alt="01" style="height:500px;width:auto;display:block;"></div>
     </div>
     <!-- 11–15 -->
-    <div class="rv" style="display:flex; gap:1rem; justify-content:center; align-items:flex-start; flex-wrap:wrap; margin-top:2.5rem; margin-bottom:2.5rem">
-      <div class="cs-img" style="flex-shrink:0"><img src="images/webdesign/11.png" alt="11" style="height:125px;width:auto;display:block;"></div>
-      <div class="cs-img" style="flex-shrink:0"><img src="images/webdesign/12.png" alt="12" style="height:125px;width:auto;display:block;"></div>
-      <div class="cs-img" style="flex-shrink:0"><img src="images/webdesign/13.png" alt="13" style="height:125px;width:auto;display:block;"></div>
-      <div class="cs-img" style="flex-shrink:0"><img src="images/webdesign/14.png" alt="14" style="height:125px;width:auto;display:block;"></div>
-      <div class="cs-img" style="flex-shrink:0"><img src="images/webdesign/15.png" alt="15" style="height:150px;width:auto;display:block;"></div>
+    <div class="wd-row wd-row--thirds rv" style="margin-top:2.5rem; margin-bottom:2.5rem">
+      <div class="cs-img"><img src="images/webdesign/11.png" alt="11" style="height:125px;width:auto;display:block;"></div>
+      <div class="cs-img"><img src="images/webdesign/12.png" alt="12" style="height:90px;width:auto;display:block;"></div>
+      <div class="cs-img"><img src="images/webdesign/13.png" alt="13" style="height:90px;width:auto;display:block;"></div>
+      <div class="cs-img"><img src="images/webdesign/14.png" alt="14" style="height:125px;width:auto;display:block;"></div>
+      <div class="cs-img"><img src="images/webdesign/15.png" alt="15" style="height:150px;width:auto;display:block;"></div>
     </div>
     <!-- 31 -->
-    <div class="rv" style="display:flex; gap:1rem; justify-content:center; align-items:flex-start">
-      <div class="cs-img" style="flex-shrink:0"><img src="images/webdesign/31.png" alt="31" style="height:614px;width:auto;display:block;"></div>
+    <div class="wd-row rv">
+      <div class="cs-img"><img src="images/webdesign/31.png" alt="31" style="height:614px;width:auto;display:block;"></div>
     </div>
     <!-- 21–23 -->
-    <div class="rv" style="display:flex; gap:1rem; justify-content:center; align-items:flex-start; flex-wrap:wrap; margin-top:2.5rem">
-      <div class="cs-img" style="flex-shrink:0"><img src="images/webdesign/21.png" alt="21" style="height:350px;width:auto;display:block;"></div>
-      <div class="cs-img" style="flex-shrink:0"><img src="images/webdesign/22.png" alt="22" style="height:350px;width:auto;display:block;"></div>
-      <div class="cs-img" style="flex-shrink:0"><img src="images/webdesign/23.png" alt="23" style="height:350px;width:auto;display:block;"></div>
+    <div class="wd-row rv" style="margin-top:2.5rem">
+      <div class="cs-img"><img src="images/webdesign/21.png" alt="21" style="height:350px;width:auto;display:block;"></div>
+      <div class="cs-img"><img src="images/webdesign/22.png" alt="22" style="height:350px;width:auto;display:block;"></div>
+      <div class="cs-img"><img src="images/webdesign/23.png" alt="23" style="height:350px;width:auto;display:block;"></div>
     </div>
   </div>
 </section>
