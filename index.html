@@ -238,10 +238,10 @@ section { padding: var(--sp) var(--pad); }
   display: block;
 }
 
-@media (max-width:720px) {
+@media (max-width:1280px) {
   #hero { grid-template-columns: 1fr; }
   .hero-left { padding-top: 7rem; padding-bottom: 2rem; padding-right: var(--pad); }
-  .hero-right { height: auto; }
+  .hero-right { display: none; }
   .hero-name { font-size: clamp(2rem,9vw,3.5rem); }
 }
 
@@ -493,9 +493,51 @@ footer {
 @keyframes aUp    { from{opacity:0;transform:translateY(26px)} to{opacity:1;transform:none} }
 @keyframes ripOut { to{width:360px;height:360px;opacity:0} }
 @keyframes gfxSpin { to { transform: rotate(360deg); } }
+
+/* ── loading screen ─────────────────────────────────── */
+#loader {
+  position: fixed; inset: 0; z-index: 99999;
+  background: linear-gradient(160deg, #1E0E08 0%, #3A2014 55%, #4A2E1E 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 1.4rem;
+  transition: opacity .6s ease, visibility .6s ease;
+}
+#loader.hide { opacity: 0; visibility: hidden; }
+
+#loader-name {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(1.2rem, 3.5vw, 2.2rem);
+  font-weight: 300;
+  letter-spacing: -.04em;
+  color: #F0ECEA;
+  opacity: 0;
+  animation: loaderFadeUp .8s ease forwards .15s;
+}
+#loader-name span { color: #C4AFA7; }
+
+#loader-line {
+  width: 0;
+  height: 1px;
+  background: rgba(240,236,234,.35);
+  animation: loaderLine 1.1s ease forwards .3s;
+}
+
+@keyframes loaderFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes loaderLine {
+  from { width: 0; }
+  to   { width: clamp(120px, 30vw, 260px); }
+}
 </style>
 </head>
 <body>
+
+<div id="loader">
+  <p id="loader-name">Laura <span>Manicke</span></p>
+  <div id="loader-line"></div>
+</div>
 
 <!-- back to top -->
 <button class="btt" id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
@@ -840,6 +882,19 @@ document.querySelectorAll('.sk-card').forEach(card => {
     setTimeout(() => rip.remove(), 700);
   });
 });
+
+/* ── loading screen ──────────────────────────────── */
+(function() {
+  const loader = document.getElementById('loader');
+  function hideLoader() {
+    setTimeout(() => loader.classList.add('hide'), 1400);
+  }
+  if (document.readyState === 'complete') {
+    hideLoader();
+  } else {
+    window.addEventListener('load', hideLoader);
+  }
+})();
 
 /* ── init lucide icons ───────────────────────────── */
 lucide.createIcons();

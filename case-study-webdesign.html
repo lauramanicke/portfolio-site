@@ -98,7 +98,7 @@ i[data-lucide] svg { stroke:currentColor; fill:none; }
   padding: 0;
   position: relative; overflow: hidden;
 }
-@media (max-width: 720px) {
+@media (max-width: 1280px) {
   .cs-hero { grid-template-columns: 1fr; }
   .cs-hero-right-img { display: none; }
 }
@@ -108,8 +108,8 @@ i[data-lucide] svg { stroke:currentColor; fill:none; }
   pointer-events: none;
 }
 .cs-hero-left { display: flex; flex-direction: column; justify-content: flex-end; position: relative; z-index: 1; padding: 8rem clamp(1rem, 3vw, 2rem) var(--sp) var(--pad); }
-.cs-hero-right-img { position: relative; z-index: 1; }
-.cs-hero-right-img img { width: 100%; height: auto; display: block; }
+.cs-hero-right-img { position: relative; z-index: 1; overflow: hidden; }
+.cs-hero-right-img img { width: 100%; max-height: 80vh; object-fit: cover; object-position: top; display: block; }
 .cs-back {
   position: absolute; top: 5.2rem; left: var(--pad);
   display: inline-flex; align-items: center; gap: .4rem;
@@ -297,7 +297,7 @@ footer { background: rgba(30,18,12,1); padding: clamp(4rem,9vw,7rem) var(--pad);
     <p class="cs-hero-sub">A multi-page travel website concept designed in Figma to document a journey through Australia.</p>
   </div>
   <div class="cs-hero-right-img">
-    <img src="images/Webdesign.png" alt="Australia Web Design">
+    <img src="images/Webdesign%20long.png" alt="Australia Web Design">
   </div>
 </section>
 
