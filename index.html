@@ -1,0 +1,848 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laura Manicke — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+/* ── tokens ─────────────────────────────────────────── */
+:root {
+  --w:   #F0ECEA;        /* lightest — main bg */
+  --b1:  #E8E0DC;        /* light warm section */
+  --b2:  #DDD3CE;        /* mid warm border/card bg */
+  --bm:  #C4AFA7;        /* border / muted */
+
+  --red:   #8C5A48;      /* main accent — deep warm terracotta */
+  --red2:  #A06852;      /* hover accent — slightly lighter */
+  --amber: #B78D77;      /* secondary — the key tone */
+
+  --ink:      #2A1C16;   /* near-black text */
+  --ink-mid:  #6B4A3A;   /* mid-tone text */
+  --ink-lite: #9C7B6C;   /* muted text */
+
+  --f:    'Inter', system-ui, sans-serif;
+  --pad:  clamp(1.4rem, 5.5vw, 5rem);
+  --sp:   clamp(4rem, 10vw, 8rem);
+  --r-sm:  0px;
+  --r-btn: 0px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--f); color: var(--ink); background: var(--w); line-height: 1.65; overflow-x: hidden; }
+img  { display: block; max-width: 100%; }
+a    { color: inherit; text-decoration: none; cursor: pointer; }
+button { font-family: var(--f); cursor: pointer; border: none; background: none; }
+
+/* ── cursor section intentionally empty ─────────────── */
+
+
+/* ── grain overlay ──────────────────────────────────── */
+body::after { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events:none; z-index:8000; }
+
+/* ── nav ────────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 600;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.2rem var(--pad);
+  background: linear-gradient(90deg, #1E0E08 0%, #3A2014 28%, #3A2014 72%, #1E0E08 100%);
+  backdrop-filter: blur(16px);
+  transition: padding .3s, background .3s;
+  gap: 1.5rem;
+}
+nav.up { padding: .85rem var(--pad); background: linear-gradient(90deg, #1E0E08 0%, #3A2014 28%, #3A2014 72%, #1E0E08 100%); }
+
+.n-logo { font-size: 1rem; font-weight: 400; letter-spacing: -.02em; color: #F0ECEA; flex-shrink: 0; white-space: nowrap; }
+.n-logo span { color: #F0ECEA; }
+
+.n-center { display: flex; align-items: center; gap: 2.2rem; list-style: none; flex: 1; justify-content: center; }
+.n-center a { font-size: 1rem; font-weight: 400; color: #F0ECEA; position: relative; padding-bottom: .15rem; }
+.n-center a::after { content:''; position:absolute; bottom:0; left:0; width:0; height:1px; background:rgba(255,255,255,.7); transition:width .3s; }
+.n-center a:hover { color: #ffffff; }
+.n-center a:hover::after { width: 100%; }
+
+.n-cta {
+  font-family: var(--f);
+  font-size: 1rem; font-weight: 600;
+  background: rgba(240,236,234,.15); color: #F0ECEA;
+  padding: .48rem .75rem;
+  border: none;
+  border-radius: var(--r-btn);
+  transition: background .25s, color .25s;
+  flex-shrink: 0; white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 0;
+}
+.n-cta:hover { background: rgba(240,236,234,.25); color: #ffffff; gap: .4rem; }
+.n-cta .n-label {
+  max-width: 0; overflow: hidden; opacity: 0;
+  transition: max-width .3s ease, opacity .22s ease;
+  white-space: nowrap;
+}
+.n-cta:hover .n-label { max-width: 8rem; opacity: 1; }
+
+/* mobile icon contact button */
+.n-cta-icon {
+  display: none;
+  width: 34px; height: 34px;
+  background: rgba(240,236,234,.15); color: #F0ECEA;
+  align-items: center; justify-content: center;
+  font-size: 1rem; font-weight: 700;
+  border: none; border-radius: var(--r-btn); flex-shrink: 0;
+  transition: background .25s;
+  text-decoration: none;
+}
+.n-cta-icon:hover { background: rgba(240,236,234,.25); }
+
+/* mobile right group: icon + burger sit together */
+.n-mobile-right {
+  display: none;
+  align-items: center;
+  gap: .55rem;
+  margin-left: auto;
+}
+
+.n-burger { display:flex; flex-direction:column; gap:5px; padding:4px; background:none; border:none; }
+.n-burger span { display:block; width:22px; height:1.5px; background:#F0ECEA; transition:transform .3s, opacity .3s; }
+.n-burger.open span:nth-child(1) { transform:translateY(6.5px) rotate(45deg); }
+.n-burger.open span:nth-child(2) { opacity:0; }
+.n-burger.open span:nth-child(3) { transform:translateY(-6.5px) rotate(-45deg); }
+
+.n-drawer {
+  display: none; position:fixed; top:0; right:0; bottom:0; width:50%; background:linear-gradient(160deg, #1E0E08 0%, #3A2014 55%, #4A2E1E 100%); z-index:590;
+  flex-direction:column; align-items:flex-start; justify-content:center;
+  padding: 5rem 2rem 3rem; gap:1.4rem;
+}
+.n-drawer.open { display:flex; }
+.n-drawer a { font-size: 1rem; font-weight: 400; color: rgba(240,236,234,.85); letter-spacing: -.01em; display: flex; align-items: center; gap: .6rem; }
+.n-drawer a:hover { color: #ffffff; }
+
+@media (max-width: 780px) {
+  .n-center { display:none; }
+  .n-cta.desk { display:none; }
+  .n-mobile-right { display:flex; }
+  .n-cta-icon { display:flex; }
+}
+@media (min-width: 781px) {
+  .n-cta.desk { display:inline-flex; }
+  .n-mobile-right { display:none; }
+  .n-burger { display:none; }
+}
+
+/* ── back-to-top ────────────────────────────────────── */
+.btt {
+  position: fixed; bottom: 1.8rem; right: 1.8rem; z-index: 9000;
+  width: 46px; height: 46px;
+  background: var(--red); color: var(--w);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  border: none; border-radius: var(--r-btn);
+  box-shadow: 0 4px 20px rgba(166,50,21,.28);
+  opacity: 0; pointer-events: none;
+  transition: opacity .3s, transform .3s, background .2s;
+  transform: translateY(8px);
+}
+.btt.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.btt:hover { background: var(--red2); transform: translateY(-3px); }
+
+/* ── section ────────────────────────────────────────── */
+section { padding: var(--sp) var(--pad); }
+.bg-w  { background: var(--w); }
+.bg-b1 { background: var(--b1); }
+.bg-b2 { background: var(--b2); }
+
+/* ── section headlines (match card-link style) ───────── */
+.headline {
+  font-size: .9rem; font-weight: 600;
+  color: var(--red); letter-spacing: -.01em;
+  margin-bottom: 2.2rem; display: inline-flex; align-items: center; gap: .45rem;
+}
+.headline span { color: var(--red); }
+
+/* ── reveal ─────────────────────────────────────────── */
+.rv  { opacity:0; transform:translateY(32px); transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1); }
+.rvL { opacity:0; transform:translateX(-32px); transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1); }
+.rvR { opacity:0; transform:translateX(32px); transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1); }
+.rv.on, .rvL.on, .rvR.on { opacity:1; transform:none; }
+
+/* ── hero ───────────────────────────────────────────── */
+#hero {
+  min-height: 100svh;
+  background: linear-gradient(148deg, #F0ECEA 0%, #E8DDD6 45%, #DDD3CE 100%);
+  display: grid; grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+  padding: 0;
+  overflow: hidden; position: relative;
+}
+/* subtle texture overlay on hero */
+#hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 70% 50%, rgba(183,141,119,.12) 0%, transparent 65%);
+  pointer-events: none; z-index: 0;
+}
+.hero-left {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column; justify-content: center;
+  padding-top: 8rem; padding-bottom: 5rem;
+  padding-left: var(--pad); padding-right: clamp(1.5rem, 4vw, 3rem);
+}
+.hero-eyebrow {
+  font-size: .82rem; font-weight: 500; color: var(--ink-mid);
+  margin-bottom: 1.6rem; letter-spacing: .08em;
+  opacity:0; animation: aUp .8s .15s cubic-bezier(.16,1,.3,1) forwards;
+}
+.hero-name {
+  font-size: clamp(2.2rem,5vw,5rem); font-weight: 400;
+  line-height: .93; letter-spacing: -.04em; color: var(--ink);
+  margin-bottom: 1.3rem;
+  opacity:0; animation: aUp .9s .3s cubic-bezier(.16,1,.3,1) forwards;
+}
+.hero-name span { color: var(--red); }
+.hero-sub {
+  font-size: clamp(.95rem,1.7vw,1.2rem); font-weight: 300;
+  color: var(--ink-mid); max-width: 40ch;
+  margin-bottom: 2.6rem; line-height: 1.65;
+  opacity:0; animation: aUp 1s .44s cubic-bezier(.16,1,.3,1) forwards;
+}
+.hero-btns {
+  display: flex; gap: 1rem; flex-wrap: wrap;
+  opacity:0; animation: aUp .9s .58s cubic-bezier(.16,1,.3,1) forwards;
+}
+.btn-solid {
+  font-family: var(--f); font-size: .9rem; font-weight: 600;
+  background: linear-gradient(90deg, #1E0E08 0%, #3A2014 50%, #1E0E08 100%); color: var(--w);
+  padding: .8rem 2rem; border: none; border-radius: var(--r-btn);
+  display: inline-flex; align-items: center; gap: .45rem;
+  transition: background .25s, transform .2s;
+}
+.btn-solid:hover { background: linear-gradient(90deg, #2E1A10 0%, #4A2A1A 50%, #2E1A10 100%); transform: translateY(-2px); }
+.btn-outline {
+  font-family: var(--f); font-size: .9rem; font-weight: 400;
+  background: rgba(42,28,22,.07); color: var(--ink-mid);
+  padding: .8rem 1.8rem; border: none; border-radius: var(--r-btn);
+  display: inline-flex; align-items: center; gap: .45rem;
+  transition: background .25s, color .25s, transform .2s;
+}
+.btn-outline:hover { background: rgba(42,28,22,.13); color: var(--ink); transform: translateY(-2px); }
+
+.hero-right {
+  position: relative; z-index: 1; overflow: hidden;
+  opacity: 0; animation: aUp 1s .55s cubic-bezier(.16,1,.3,1) forwards;
+}
+.hero-img-block { width: 100%; }
+.hero-portrait {
+  width: 100%; height: auto;
+  display: block;
+}
+
+@media (max-width:720px) {
+  #hero { grid-template-columns: 1fr; }
+  .hero-left { padding-top: 7rem; padding-bottom: 2rem; padding-right: var(--pad); }
+  .hero-right { height: auto; }
+  .hero-name { font-size: clamp(2rem,9vw,3.5rem); }
+}
+
+/* ── project tabs – split button ─────────────────────── */
+.tab-bar {
+  display: inline-flex; gap: 2px;
+  margin-bottom: 2.5rem;
+}
+.tab-btn {
+  font-family: var(--f); font-size: .9rem; font-weight: 600;
+  color: var(--ink-mid); background: var(--b2);
+  border: none; border-radius: 0;
+  padding: .72rem 1.6rem;
+  position: relative; transition: background .22s, color .22s;
+  letter-spacing: -.01em;
+}
+.tab-btn.active { background: var(--ink); color: var(--w); }
+.tab-btn:not(.active):hover { background: var(--bm); color: var(--ink); }
+
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
+
+/* ── UX cards ───────────────────────────────────────── */
+.ux-grid { display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; }
+@media (max-width:640px) { .ux-grid { grid-template-columns:1fr; gap:1.5rem; } }
+
+.ux-card { background:var(--w); overflow:hidden; position:relative; }
+.card-thumb { position:relative; overflow:hidden; height:clamp(200px,30vw,400px); }
+.card-thumb-fill { width:100%; height:100%; display:flex; align-items:center; justify-content:center; transition:transform .7s cubic-bezier(.16,1,.3,1); }
+.ux-card:hover .card-thumb-fill { transform:scale(1.04); }
+.ux-card:nth-child(1) .card-thumb-fill { background:linear-gradient(140deg, var(--b2), #9A6858); }
+.ux-card:nth-child(2) .card-thumb-fill { background:linear-gradient(140deg, #B78D77, #4A2818); }
+.thumb-num { font-size:5.5rem; font-weight:900; color:rgba(250,248,245,.14); user-select:none; }
+.card-badge { position:absolute; top:1rem; left:1rem; font-family:var(--f); font-size:.62rem; font-weight:600; background:var(--ink); color:var(--w); padding:.28rem .7rem; z-index:2; letter-spacing:.02em; border-radius:var(--r-sm); }
+.card-body { padding:1.1rem 1.8rem 1.3rem; background:linear-gradient(90deg, #3A2014 0%, #1E0E08 100%); }
+.card-meta { font-size:.7rem; font-weight:500; color:var(--amber); margin-bottom:.4rem; letter-spacing:.02em; }
+.card-title { font-size:clamp(1.25rem,2.4vw,1.8rem); font-weight:700; line-height:1.15; color:var(--w); margin-bottom:.7rem; letter-spacing:-.015em; }
+.card-desc { font-size:.92rem; font-weight:300; color:rgba(240,236,234,.55); line-height:1.65; margin-bottom:1.2rem; }
+.card-pills { display:flex; flex-wrap:wrap; gap:.35rem; margin-bottom:1.4rem; }
+.card-link { font-family:var(--f); font-size:.82rem; font-weight:600; color:var(--amber); display:inline-flex; align-items:center; gap:.45rem; transition:gap .25s; }
+.card-link::after { content:''; position:absolute; inset:0; z-index:1; }
+.card-link:hover { gap:.85rem; color:var(--w); }
+
+/* ── graphic design masonry grid ────────────────────── */
+.gfx-grid {
+  columns: 4;
+  column-gap: 12px;
+  margin-top: .5rem;
+}
+@media (max-width:900px) { .gfx-grid { columns:3; } }
+@media (max-width:560px) { .gfx-grid { columns:2; } }
+
+.gfx-item {
+  break-inside: avoid;
+  margin-bottom: 12px;
+  overflow: hidden;
+  position: relative;
+  display: block;
+}
+.gfx-fill {
+  width:100%; display:block;
+}
+.gfx-overlay {
+  position:absolute; inset:0;
+  background:var(--ink); opacity:0;
+  display:flex; align-items:center; justify-content:center; flex-direction:column; gap:.3rem;
+  z-index:1;
+}
+.gfx-ov-title { font-size:.85rem; font-weight:600; color:var(--w); letter-spacing:-.01em; }
+.gfx-ov-cat   { font-size:.62rem; font-weight:400; color:rgba(250,248,245,.6); letter-spacing:.04em; }
+
+img.gfx-fill { width:100%; height:auto; display:block; }
+
+.gfx-category { margin-bottom: 3.5rem; }
+.gfx-cat-label {
+  font-size: .72rem; font-weight: 600;
+  color: var(--red); letter-spacing: .07em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  padding-bottom: .5rem;
+  border-bottom: 1px solid var(--bm);
+}
+
+/* ── art rows ────────────────────────────────────────── */
+.art-row { display:grid; gap:12px; margin-bottom:12px; }
+.art-row-4 { grid-template-columns:repeat(4,1fr); }
+.art-row-3 { grid-template-columns:repeat(3,1fr); }
+.art-row-2 { grid-template-columns:repeat(2,1fr); }
+.art-row-flex { display:flex; gap:12px; }
+.art-row-flex .art-img { height:300px; width:auto; }
+.art-row-short { display:flex; gap:12px; }
+.art-row-short .art-img { height:380px; width:auto; }
+.art-row-5 { display:flex; flex-wrap:nowrap; overflow:hidden; }
+.art-row-5 .art-img { height:300px; width:auto; flex-shrink:1; min-width:0; }
+@media (max-width:640px) {
+  .art-row-4, .art-row-3, .art-row-5 { grid-template-columns:repeat(2,1fr); }
+  .art-row-2 { grid-template-columns:1fr; }
+}
+.art-img { width:100%; height:auto; display:block; }
+
+/* ── lucide icons ────────────────────────────────────── */
+i[data-lucide] { display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; }
+i[data-lucide] svg { stroke:currentColor; fill:none; }
+
+/* ── pills · badges · chips ──────────────────────────── */
+.pill { font-family:var(--f); font-size:.62rem; font-weight:500; padding:.28rem .75rem; background:rgba(240,236,234,.1); color:rgba(240,236,234,.5); transition:background .2s,color .2s; border-radius:var(--r-sm); }
+.ux-card:hover .pill { background:rgba(183,141,119,.18); color:var(--amber); }
+.card-badge { position:absolute; top:1rem; left:1rem; font-family:var(--f); font-size:.62rem; font-weight:600; background:var(--ink); color:var(--w); padding:.28rem .7rem; z-index:2; border-radius:var(--r-sm); letter-spacing:.02em; }
+.chip { font-family:var(--f); font-size:.63rem; font-weight:500; padding:.28rem .85rem; background:var(--b1); color:var(--ink-mid); border-radius:var(--r-sm); }
+
+/* ── about ──────────────────────────────────────────── */
+.about-grid {
+  display:grid; grid-template-columns:1fr 1.55fr;
+  gap:clamp(2.5rem,6vw,6rem); align-items:start;
+  margin-top:clamp(2.5rem,5vw,4rem);
+}
+@media (max-width:800px) { .about-grid { grid-template-columns:1fr; } .about-sticky { position:static !important; } }
+.about-sticky { position:sticky; top:7rem; }
+.about-img { overflow:hidden; position:relative; }
+.about-img-fill {
+  width:100%; height:100%;
+  background:linear-gradient(152deg,#D4B0A0,#8C5A48 55%,#2A1208);
+  display:flex; align-items:center; justify-content:center;
+  font-size:8rem; font-weight:900; color:rgba(250,248,245,.08); user-select:none;
+}.about-cap { padding-top: .75rem; color: var(--ink); }
+.about-cap h3 { font-size:1.25rem; font-weight:700; letter-spacing:-.015em; }
+.about-cap p  { font-size:.7rem; font-weight:400; color:var(--ink-lite); margin-top:.15rem; }
+.about-chips { display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.9rem; }
+
+.about-body p { font-size:clamp(.95rem,1.65vw,1.15rem); font-weight:300; color:var(--ink-mid); line-height:1.75; margin-bottom:1.1rem; }
+.about-body p strong { font-weight:700; color:var(--ink); }
+.rule { width:3rem; height:1.5px; background:var(--red); margin:1.8rem 0; }
+
+.tl-head { font-size:.76rem; font-weight:600; color:var(--red); margin-bottom:1.4rem; letter-spacing:.01em; }
+.tl-list { padding-left:1.2rem; position:relative; }
+.tl-item { position:relative; padding-left:1.2rem; margin-bottom:1.7rem; }
+.tl-item::before { content:''; position:absolute; left:-1.35rem; top:.42rem; width:.42rem; height:.42rem; background:var(--red); transition:transform .25s; }
+.tl-item:hover::before { transform:scale(1.6); }
+.tl-item:not(:last-child)::after { content:''; position:absolute; left:calc(-1.35rem + .21rem); top:calc(.42rem + .42rem); width:1px; bottom:calc(-1.7rem - .42rem); background:var(--ink-mid); }
+.tl-yr   { font-size:.66rem; font-weight:500; color:var(--red); margin-bottom:.15rem; letter-spacing:.02em; }
+.tl-role { font-size:1rem; font-weight:700; color:var(--ink); line-height:1.2; letter-spacing:-.01em; }
+.tl-org  { font-size:.7rem; font-weight:400; color:var(--ink-lite); margin-top:.1rem; }
+.tl-desc { font-size:.88rem; font-weight:300; color:var(--ink-mid); margin-top:.35rem; line-height:1.55; }
+
+/* ── skills ─────────────────────────────────────────── */
+.sk-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; margin-top:1.5rem; }
+@media (max-width:720px) { .sk-grid { grid-template-columns:1fr 1fr; } }
+@media (max-width:400px) { .sk-grid { grid-template-columns:1fr; } }
+
+.sk-card { background:var(--w); padding:1.7rem 1.5rem; position:relative; overflow:hidden; transition:background .3s; }
+.sk-card::after { content:''; position:absolute; bottom:0; left:0; width:100%; height:2px; background:var(--red); transform:scaleX(0); transform-origin:left; transition:transform .4s cubic-bezier(.16,1,.3,1); }
+.sk-card:hover { background:var(--b1); }
+.sk-card:hover::after { transform:scaleX(1); }
+.sk-ico { width:1.5rem; height:1.5rem; margin-bottom:.8rem; display:flex; align-items:center; color:var(--red); opacity:.85; }
+.sk-ico svg { width:100%; height:100%; }
+.sk-n { font-size:.97rem; font-weight:700; color:var(--ink); margin-bottom:.3rem; letter-spacing:-.01em; }
+.sk-d { font-size:.7rem; font-weight:400; color:var(--ink-lite); line-height:1.5; }
+
+.sk-ico { width:22px; height:22px; margin-bottom:.9rem; display:flex; align-items:center; color:var(--red); }
+.sk-ico svg { width:22px; height:22px; stroke:var(--red); opacity:.85; }
+
+.tools-wrap {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: .6rem;
+  margin-top: 1.5rem;
+}
+.tool {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: .45rem; text-align: center;
+  background: var(--b2); border: none;
+  padding: .65rem;
+  min-height: 80px;
+  border-radius: var(--r-sm);
+  position: relative; overflow: hidden;
+  transition: background .3s;
+}
+.tool::after { content:''; position:absolute; bottom:0; left:0; width:100%; height:2px; background:var(--red); transform:scaleX(0); transform-origin:left; transition:transform .4s cubic-bezier(.16,1,.3,1); }
+.tool:hover { background: var(--b1); }
+.tool:hover::after { transform:scaleX(1); }
+.tool-ico { width: 18px; height: 18px; flex-shrink: 0; color: var(--ink-mid); transition: color .2s; }
+.tool:hover .tool-ico { color: var(--red); }
+.tool-n { font-family: var(--f); font-size: .62rem; font-weight: 500; color: var(--ink-mid); transition: color .2s; line-height: 1.3; }
+.tool:hover .tool-n { color: var(--red); }
+
+/* ── contact ────────────────────────────────────────── */
+#contact { background: rgba(30,18,12,1); }
+#contact .headline { color:var(--amber); }
+#contact .headline::after { color:var(--amber); }
+
+.ct-sub { font-size:clamp(.95rem,1.55vw,1.1rem); font-weight:300; color:rgba(240,236,234,.45); max-width:40ch; margin-bottom:2rem; line-height:1.7; }
+.ct-email { font-size:clamp(1.1rem,2.3vw,1.65rem); font-weight:700; color:var(--amber); display:flex; align-items:center; gap:.6rem; margin-bottom:1.8rem; transition:color .25s,gap .3s; letter-spacing:-.015em; }
+.ct-email:hover { color:#C4A090; gap:1rem; }
+.ct-ico-lg { width:22px; height:22px; }
+.ct-ico-sm { width:18px; height:18px; }
+.ct-ico-xs { width:14px; height:14px; }
+.ct-socials { display:flex; flex-direction:column; gap:.65rem; }
+.ct-soc { font-size:.84rem; font-weight:500; color:rgba(240,236,234,.35); display:flex; align-items:center; gap:.5rem; transition:color .25s,gap .25s; }
+.ct-soc:hover { color:var(--w); gap:.85rem; }
+
+footer {
+  background: rgba(30,18,12,1);
+  padding: clamp(4rem,9vw,7rem) var(--pad);
+  text-align: center;
+}
+.f-headline {
+  font-size: clamp(2rem,4.5vw,3.5rem);
+  font-weight: 400; letter-spacing: -.03em;
+  color: var(--w); margin-bottom: .9rem; line-height: 1.08;
+}
+.f-headline span { color: var(--amber); }
+.f-text {
+  font-size: clamp(.92rem,1.5vw,1.08rem);
+  font-weight: 300; color: rgba(240,220,210,.4);
+  max-width: 40ch; margin: 0 auto 2rem;
+  line-height: 1.7;
+}
+.f-email {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-size: .95rem; font-weight: 600;
+  color: var(--amber);
+  transition: color .25s, gap .25s;
+}
+.f-email:hover { color: #C4A090; gap: .8rem; }
+
+
+/* ── gfx loading overlay ────────────────────────────── */
+#tab-gfx { position: relative; }
+.gfx-loader {
+  position: absolute; inset: 0;
+  background: var(--b1);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: .9rem; z-index: 10;
+  min-height: 320px;
+  transition: opacity .45s ease;
+}
+.gfx-loader.done { opacity: 0; pointer-events: none; }
+.gfx-spinner {
+  width: 26px; height: 26px;
+  border: 2px solid var(--bm);
+  border-top-color: var(--red);
+  border-radius: 50%;
+  animation: gfxSpin .7s linear infinite;
+}
+.gfx-loader-text { font-size: .72rem; font-weight: 500; color: var(--ink-lite); letter-spacing: .04em; }
+
+/* ── keyframes ──────────────────────────────────────── */
+@keyframes aUp    { from{opacity:0;transform:translateY(26px)} to{opacity:1;transform:none} }
+@keyframes ripOut { to{width:360px;height:360px;opacity:0} }
+@keyframes gfxSpin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<!-- back to top -->
+<button class="btt" id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+  <i data-lucide="chevron-up" style="width:20px;height:20px"></i>
+</button>
+
+<!-- ── nav ──────────────────────────────────────────────── -->
+<nav id="nav">
+  <a href="#hero" class="n-logo">Laura <span>Manicke</span></a>
+
+  <ul class="n-center">
+    <li><a href="#about">About me</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="manicke_CV.pdf" download>Download CV</a></li>
+  </ul>
+
+  <a href="https://www.linkedin.com/in/laura-manicke-7ab452407" target="_blank" rel="noopener" class="n-cta desk"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15" style="flex-shrink:0"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg><span class="n-label">LinkedIn</span></a>
+  <a href="mailto:laura.manicke@gmail.com" class="n-cta desk"><i data-lucide="mail" style="width:15px;height:15px"></i><span class="n-label">Contact</span></a>
+
+  <div class="n-mobile-right">
+    <a href="https://www.linkedin.com/in/laura-manicke-7ab452407" target="_blank" rel="noopener" class="n-cta-icon" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="17" height="17" style="flex-shrink:0"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <a href="mailto:laura.manicke@gmail.com" class="n-cta-icon" aria-label="Contact" onclick="closeDrawer()">
+      <i data-lucide="mail" style="width:17px;height:17px"></i>
+    </a>
+    <button class="n-burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- mobile drawer -->
+<div class="n-drawer" id="drawer">
+  <a href="#about"    onclick="closeDrawer()"><i data-lucide="user" style="width:18px;height:18px;opacity:.7"></i> About me</a>
+  <a href="#projects" onclick="closeDrawer()"><i data-lucide="layout-grid" style="width:18px;height:18px;opacity:.7"></i> Projects</a>
+  <a href="manicke_CV.pdf" download onclick="closeDrawer()"><i data-lucide="download" style="width:18px;height:18px;opacity:.7"></i> Download CV</a>
+  <a href="https://www.linkedin.com/in/laura-manicke-7ab452407" target="_blank" rel="noopener" onclick="closeDrawer()"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18" style="flex-shrink:0;opacity:.7"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
+</div>
+
+<!-- ── hero ─────────────────────────────────────────────── -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">UX/UI · Visual Design · Digital Media</div>
+    <h1 class="hero-name">Portfolio</h1>
+    <p class="hero-sub">Creating intuitive digital experiences through UX/UI design, visual communication, and interactive media. Shaped by a strong sense of composition, branding, and structured visual systems.</p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-solid"><i data-lucide="arrow-right" style="width:16px;height:16px"></i> View work</a>
+      <a href="#skills" class="btn-outline"><i data-lucide="wrench" style="width:16px;height:16px"></i> Skills &amp; tools</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-img-block">
+      <img src="hero.png" alt="Laura Manicke" class="hero-portrait">
+    </div>
+  </div>
+</section>
+
+<!-- ── projects ──────────────────────────────────────────── -->
+<section id="projects" class="bg-b1">
+  <!-- tab bar -->
+  <div class="tab-bar rv">
+    <button class="tab-btn active" onclick="switchTab('ux',this)">UX Design</button>
+    <button class="tab-btn" onclick="switchTab('gfx',this)">Art &amp; Graphic Design</button>
+  </div>
+
+  <!-- UX tab -->
+  <div class="tab-panel active" id="tab-ux">
+    <div class="ux-grid">
+      <div class="ux-card rvL">
+        <div class="card-thumb">
+          <div class="card-thumb-fill" style="background:url('images/meat%20and%20eat.png') center/cover no-repeat;"></div>
+          <div class="card-badge">Design Thinking</div>
+        </div>
+        <div class="card-body">
+          <div class="card-meta">001 — WS 2024/25</div>
+          <h3 class="card-title">Design Thinking</h3>
+          <a href="case-study-designthinking.html" class="card-link">View case study <i data-lucide="arrow-right" style="width:14px;height:14px"></i></a>
+        </div>
+      </div>
+      <div class="ux-card rvR">
+        <div class="card-thumb">
+          <div class="card-thumb-fill" style="background:url('images/Webdesign.png') center/cover no-repeat;"></div>
+          <div class="card-badge">Web Design</div>
+        </div>
+        <div class="card-body">
+          <div class="card-meta">002 — SS 2024</div>
+          <h3 class="card-title">Webdesign</h3>
+          <a href="case-study-webdesign.html" class="card-link">View case study <i data-lucide="arrow-right" style="width:14px;height:14px"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Graphic design tab -->
+  <div class="tab-panel" id="tab-gfx">
+
+    <!-- Loading overlay -->
+    <div class="gfx-loader" id="gfx-loader">
+      <div class="gfx-spinner"></div>
+      <span class="gfx-loader-text">Loading gallery…</span>
+    </div>
+
+    <!-- Art & Sculptures -->
+    <div class="gfx-category">
+      <div class="gfx-cat-label">Art &amp; Sculptures</div>
+      <div class="art-row art-row-4">
+        <img src="images/graphicdesign/a01.jpg" alt="Art 01" class="art-img" loading="lazy">
+        <img src="images/graphicdesign/a02.jpg" alt="Art 02" class="art-img" loading="lazy">
+        <img src="images/graphicdesign/a03.jpg" alt="Art 03" class="art-img" loading="lazy">
+        <img src="images/graphicdesign/a04.jpg" alt="Art 04" class="art-img" loading="lazy">
+      </div>
+      <div class="art-row art-row-3">
+        <img src="images/graphicdesign/a11.jpg" alt="Art 11" class="art-img" loading="lazy">
+        <img src="images/graphicdesign/a12.jpg" alt="Art 12" class="art-img" loading="lazy">
+        <img src="images/graphicdesign/a13.jpg" alt="Art 13" class="art-img" loading="lazy">
+      </div>
+      <div class="art-row art-row-5">
+        <img src="images/graphicdesign/a21.png" alt="Art 21" class="art-img" loading="lazy">
+        <img src="images/graphicdesign/a22.png" alt="Art 22" class="art-img" loading="lazy">
+        <img src="images/graphicdesign/a23.png" alt="Art 23" class="art-img" loading="lazy">
+        <img src="images/graphicdesign/a24.png" alt="Art 24" class="art-img" loading="lazy">
+        <img src="images/graphicdesign/a25.png" alt="Art 25" class="art-img" loading="lazy">
+      </div>
+    </div>
+
+    <!-- Flyers, Print & Branding -->
+    <div class="gfx-category">
+      <div class="gfx-cat-label">Flyers, Print &amp; Branding</div>
+      <div class="art-row art-row-2 art-row-short">
+        <img src="images/graphicdesign/b01.jpg" alt="Print 01" class="art-img" loading="lazy">
+        <img src="images/graphicdesign/b02.jpg" alt="Print 02" class="art-img" loading="lazy">
+      </div>
+      <div class="art-row art-row-4">
+        <img src="images/graphicdesign/b11.jpg" alt="Print 11" class="art-img" loading="lazy">
+        <img src="images/graphicdesign/b12.jpg" alt="Print 12" class="art-img" loading="lazy">
+        <img src="images/graphicdesign/b13.jpg" alt="Print 13" class="art-img" loading="lazy">
+        <img src="images/graphicdesign/b14.jpg" alt="Print 14" class="art-img" loading="lazy">
+      </div>
+      <div class="art-row art-row-4">
+        <img src="images/graphicdesign/b21.jpg" alt="Print 21" class="art-img" loading="lazy">
+        <img src="images/graphicdesign/b22.jpg" alt="Print 22" class="art-img" loading="lazy">
+        <img src="images/graphicdesign/b23.jpg" alt="Print 23" class="art-img" loading="lazy" style="height:100%; object-fit:cover;">
+        <img src="images/graphicdesign/b24.jpg" alt="Print 24" class="art-img" loading="lazy">
+      </div>
+      <div class="art-row art-row-flex">
+        <img src="images/graphicdesign/b31.jpg" alt="Print 31" class="art-img" loading="lazy">
+        <img src="images/graphicdesign/b32.png" alt="Print 32" class="art-img" loading="lazy">
+        <img src="images/graphicdesign/b33.jpg" alt="Print 33" class="art-img" loading="lazy" style="height:100px;">
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── about ─────────────────────────────────────────────── -->
+<section id="about" class="bg-w">
+  <div class="about-grid">
+
+    <div class="about-sticky rvL">
+      <div class="about-img">
+        <img src="picture.png" alt="Laura Manicke" style="width:100%;height:auto;display:block;">
+      </div>
+      <div class="about-cap">
+        <h3>Laura Manicke</h3>
+        <p>Designer &amp; student · Munich</p>
+      </div>
+
+    </div>
+
+    <div class="rvR">
+      <div class="about-body">
+        <p>I'm a <strong>junior designer and student</strong> at LMU Munich, studying Art &amp; Multimedia with a minor in Media Informatics.</p>
+        <p>With professional experience as a junior designer at <strong>Gecko Marketing GmbH</strong> in Wasserburg, I've worked on visual identities, print and campaign design, and digital assets for real clients, with a focus on clarity, function, and detail.</p>
+        <p>Whether mapping user flows in Figma, exploring 3D in Blender, or building a visual identity from scratch, I bring curiosity and care to every project.</p>
+      </div>
+      <div class="rule"></div>
+
+      <div class="tl-head">Work experience</div>
+      <div class="tl-list">
+        <div class="tl-item">
+          <div class="tl-yr">Jul 2023 – present</div>
+          <div class="tl-role">Junior Designer</div>
+          <div class="tl-org">Gecko Marketing GmbH, Wasserburg am Inn</div>
+          <div class="tl-desc">Branding, print design, and digital content creation for diverse clients — including logos, posters, flyers, and social media assets, with a focus on clarity, audience understanding, and visual consistency, from concept to production.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-yr">Mar 2022 – Jul 2022</div>
+          <div class="tl-role">Web & Product Design Internship</div>
+          <div class="tl-org">Werkschmiede Design Agentur, Wasserburg am Inn</div>
+          <div class="tl-desc">Six-month internship in graphic and web design, working on branding, print, and digital projects in a professional studio environment.</div>
+        </div>
+      </div>
+
+      <div class="tl-head" style="margin-top:2rem">Education</div>
+      <div class="tl-list">
+        <div class="tl-item">
+          <div class="tl-yr">Oct 2024 – present</div>
+          <div class="tl-role">B.A. Art &amp; Multimedia</div>
+          <div class="tl-org">LMU München · Nebenfach Mediainformatik</div>
+          <div class="tl-desc">Interdisciplinary studies in visual design, digital media, and interactive systems. Focus on web and interface design, UX/UI fundamentals, design thinking, and interactive media development using tools like Figma and Unity.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-yr">Sep 2021 – Jul 2024</div>
+          <div class="tl-role">Abitur · FOS Gestaltungszweig</div>
+          <div class="tl-org">FOS Rosenheim</div>
+          <div class="tl-desc">Design-focused school education covering typography, visual communication, photography, and practical graphic design work.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-yr">Sep 2017 – Jul 2021</div>
+          <div class="tl-role">Mittlere Reife</div>
+          <div class="tl-org">Realschule Wasserburg</div>
+          <div class="tl-desc">General secondary education.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── skills ────────────────────────────────────────────── -->
+<section id="skills" class="bg-b1" style="padding-top:clamp(3rem,7vw,5.5rem);padding-bottom:clamp(3rem,7vw,5.5rem)">
+  <div class="sk-grid">
+    <div class="sk-card rv"><span class="sk-ico"><i data-lucide="mouse-pointer-2"></i></span><div class="sk-n">UX Design</div><div class="sk-d">Research · Wireframing · Prototyping · Usability</div></div>
+    <div class="sk-card rv"><span class="sk-ico"><i data-lucide="pen-tool"></i></span><div class="sk-n">Graphic Design</div><div class="sk-d">Branding · Typography · Print · Editorial</div></div>
+    <div class="sk-card rv"><span class="sk-ico"><i data-lucide="camera"></i></span><div class="sk-n">Photography</div><div class="sk-d">Editorial · Product · Post-processing</div></div>
+    <div class="sk-card rv"><span class="sk-ico"><i data-lucide="monitor-play"></i></span><div class="sk-n">Media Design</div><div class="sk-d">Motion · 3D · Interactive media</div></div>
+  </div>
+
+  <div style="margin-top:2.8rem">
+    <div class="tools-wrap rv">
+      <div class="tool"><i data-lucide="layers" class="tool-ico"></i><span class="tool-n">Adobe CC</span></div>
+      <div class="tool"><i data-lucide="layout-template" class="tool-ico"></i><span class="tool-n">Canva</span></div>
+      <div class="tool"><svg viewBox="0 0 24 24" fill="currentColor" class="tool-ico" style="stroke:none"><path d="M8 24c2.208 0 4-1.792 4-4v-4H8c-2.208 0-4 1.792-4 4s1.792 4 4 4z"/><path d="M4 12c0-2.208 1.792-4 4-4h4v8H8c-2.208 0-4-1.792-4-4z"/><path d="M4 4c0-2.208 1.792-4 4-4h4v8H8C5.792 8 4 6.208 4 4z"/><path d="M12 0h4c2.208 0 4 1.792 4 4s-1.792 4-4 4h-4V0z"/><path d="M20 12c0 2.208-1.792 4-4 4s-4-1.792-4-4 1.792-4 4-4 4 1.792 4 4z"/></svg><span class="tool-n">Figma</span></div>
+      <div class="tool"><i data-lucide="box" class="tool-ico"></i><span class="tool-n">Blender</span></div>
+      <div class="tool"><i data-lucide="cpu" class="tool-ico"></i><span class="tool-n">Processing</span></div>
+      <div class="tool"><i data-lucide="terminal" class="tool-ico"></i><span class="tool-n">Python</span></div>
+      <div class="tool"><svg viewBox="0 0 24 24" fill="currentColor" class="tool-ico" style="stroke:none"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z"/></svg><span class="tool-n">HTML / CSS</span></div>
+      <div class="tool"><i data-lucide="gamepad-2" class="tool-ico"></i><span class="tool-n">Unity</span></div>
+      <div class="tool"><i data-lucide="monitor" class="tool-ico"></i><span class="tool-n">VS Code</span></div>
+      <div class="tool"><i data-lucide="zap" class="tool-ico"></i><span class="tool-n">Arduino</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── footer ────────────────────────────────────────────── -->
+<footer id="contact">
+  <div class="f-headline">Get in <span>touch</span></div>
+  <p class="f-text">I'm always open to new projects, collaborations, and creative conversations — don't hesitate to reach out.</p>
+  <a href="mailto:laura.manicke@gmail.com" class="f-email"><i data-lucide="mail" style="width:18px;height:18px"></i> laura.manicke@gmail.com</a>
+</footer>
+
+<script>
+/* ── cursor ──────────────────────────────────────── */
+/* ── nav scroll + back-to-top ────────────────────── */
+const navEl = document.getElementById('nav');
+const btt   = document.getElementById('btt');
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  navEl.classList.toggle('up', y > 50);
+  btt.classList.toggle('show', y > 400);
+}, { passive:true });
+
+/* ── hamburger ───────────────────────────────────── */
+const burger = document.getElementById('burger');
+const drawer = document.getElementById('drawer');
+burger.addEventListener('click', () => {
+  burger.classList.toggle('open');
+  drawer.classList.toggle('open');
+  document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+});
+function closeDrawer() {
+  burger.classList.remove('open');
+  drawer.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ── project tabs ────────────────────────────────── */
+let gfxLoaderDone = false;
+
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+
+  if (id === 'gfx' && !gfxLoaderDone) {
+    const loader = document.getElementById('gfx-loader');
+    const imgs = [...document.querySelectorAll('#tab-gfx img')];
+    const threshold = Math.min(6, imgs.length);
+    let count = 0;
+
+    const dismiss = () => {
+      if (gfxLoaderDone) return;
+      gfxLoaderDone = true;
+      loader.classList.add('done');
+      setTimeout(() => loader.remove(), 500);
+    };
+
+    // Dismiss after first `threshold` images load, or after 2.5s max
+    const tick = () => { if (++count >= threshold) dismiss(); };
+    imgs.forEach(img => {
+      if (img.complete) { tick(); }
+      else {
+        img.addEventListener('load',  tick, { once: true });
+        img.addEventListener('error', tick, { once: true });
+      }
+    });
+    setTimeout(dismiss, 2500);
+  }
+
+  // re-trigger reveal for newly shown items
+  document.querySelectorAll('#tab-' + id + ' .rv, #tab-' + id + ' .rvL, #tab-' + id + ' .rvR').forEach(el => {
+    if (!el.classList.contains('on')) el.classList.add('on');
+  });
+}
+
+/* ── reveal on scroll ────────────────────────────── */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const sibs = [...e.target.parentElement.children]
+      .filter(c => c.classList.contains('rv') || c.classList.contains('rvL') || c.classList.contains('rvR'));
+    const i = sibs.indexOf(e.target);
+    setTimeout(() => e.target.classList.add('on'), i * 80);
+    io.unobserve(e.target);
+  });
+}, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.rv,.rvL,.rvR').forEach(el => io.observe(el));
+
+/* ── skill ripple ────────────────────────────────── */
+const rs = document.createElement('style');
+rs.textContent = '@keyframes ripOut{to{width:360px;height:360px;opacity:0}}';
+document.head.appendChild(rs);
+document.querySelectorAll('.sk-card').forEach(card => {
+  card.style.position = 'relative';
+  card.addEventListener('mouseenter', function(e) {
+    const r = this.getBoundingClientRect();
+    const rip = document.createElement('span');
+    rip.style.cssText = `position:absolute;left:${e.clientX-r.left}px;top:${e.clientY-r.top}px;width:0;height:0;background:rgba(166,50,21,.07);transform:translate(-50%,-50%);border-radius:50%;animation:ripOut .65s ease-out forwards;pointer-events:none;z-index:0`;
+    this.appendChild(rip);
+    setTimeout(() => rip.remove(), 700);
+  });
+});
+
+/* ── init lucide icons ───────────────────────────── */
+lucide.createIcons();
+
+</script>
+</body>
+</html>

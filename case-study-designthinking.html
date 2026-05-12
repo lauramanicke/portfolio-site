@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meat &amp; Eat — Case Study · Laura Manicke</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+/* ── tokens ──────────────────────────────────────────── */
+:root {
+  --w:   #F0ECEA;
+  --b1:  #E8E0DC;
+  --b2:  #DDD3CE;
+  --bm:  #C4AFA7;
+  --red:   #8C5A48;
+  --red2:  #A06852;
+  --amber: #B78D77;
+  --ink:      #2A1C16;
+  --ink-mid:  #6B4A3A;
+  --ink-lite: #9C7B6C;
+  --f:    'Inter', system-ui, sans-serif;
+  --pad:  clamp(1.4rem, 5.5vw, 5rem);
+  --sp:   clamp(4rem, 10vw, 8rem);
+  --r-sm:  0px;
+  --r-btn: 0px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--f); color: var(--ink); background: var(--w); line-height: 1.65; overflow-x: hidden; }
+img  { display: block; max-width: 100%; }
+a    { color: inherit; text-decoration: none; cursor: pointer; }
+button { font-family: var(--f); cursor: pointer; border: none; background: none; }
+
+/* grain */
+body::after { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events:none; z-index:8000; }
+
+/* ── nav ─────────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 600;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.2rem var(--pad);
+  background: linear-gradient(90deg, #1E0E08 0%, #3A2014 28%, #3A2014 72%, #1E0E08 100%);
+  backdrop-filter: blur(16px);
+  transition: padding .3s;
+  gap: 1.5rem;
+}
+nav.up { padding: .85rem var(--pad); }
+.n-logo { font-size: 1rem; font-weight: 400; letter-spacing: -.02em; color: #F0ECEA; flex-shrink: 0; white-space: nowrap; }
+.n-logo span { color: #F0ECEA; }
+.n-center { display: flex; align-items: center; gap: 2.2rem; list-style: none; flex: 1; justify-content: center; }
+.n-center a { font-size: 1rem; font-weight: 400; color: #F0ECEA; position: relative; padding-bottom: .15rem; }
+.n-center a::after { content:''; position:absolute; bottom:0; left:0; width:0; height:1px; background:rgba(255,255,255,.7); transition:width .3s; }
+.n-center a:hover { color: #ffffff; }
+.n-center a:hover::after { width: 100%; }
+.n-cta { font-family: var(--f); font-size: 1rem; font-weight: 600; background: rgba(240,236,234,.15); color: #F0ECEA; padding: .48rem .75rem; border: none; border-radius: var(--r-btn); transition: background .25s, color .25s; flex-shrink: 0; white-space: nowrap; display: inline-flex; align-items: center; gap: 0; }
+.n-cta:hover { background: rgba(240,236,234,.25); color: #ffffff; gap: .4rem; }
+.n-label { max-width: 0; overflow: hidden; opacity: 0; transition: max-width .3s ease, opacity .22s ease; white-space: nowrap; }
+.n-cta:hover .n-label { max-width: 8rem; opacity: 1; }
+.n-cta-icon { display: none; width: 34px; height: 34px; background: rgba(240,236,234,.15); color: #F0ECEA; align-items: center; justify-content: center; font-size: 1rem; font-weight: 700; border: none; border-radius: var(--r-btn); flex-shrink: 0; transition: background .25s; text-decoration: none; }
+.n-cta-icon:hover { background: rgba(240,236,234,.25); }
+.n-mobile-right { display: none; align-items: center; gap: .55rem; margin-left: auto; }
+.n-burger { display:flex; flex-direction:column; gap:5px; padding:4px; background:none; border:none; }
+.n-burger span { display:block; width:22px; height:1.5px; background:#F0ECEA; transition:transform .3s, opacity .3s; }
+.n-burger.open span:nth-child(1) { transform:translateY(6.5px) rotate(45deg); }
+.n-burger.open span:nth-child(2) { opacity:0; }
+.n-burger.open span:nth-child(3) { transform:translateY(-6.5px) rotate(-45deg); }
+.n-drawer { display: none; position:fixed; top:0; right:0; bottom:0; width:50%; background:linear-gradient(160deg, #1E0E08 0%, #3A2014 55%, #4A2E1E 100%); z-index:590; flex-direction:column; align-items:flex-start; justify-content:center; padding: 5rem 2rem 3rem; gap:1.4rem; }
+.n-drawer.open { display:flex; }
+.n-drawer a { font-size: 1rem; font-weight: 400; color: rgba(240,236,234,.85); letter-spacing: -.01em; display: flex; align-items: center; gap: .6rem; }
+.n-drawer a:hover { color: #ffffff; }
+@media (max-width: 780px) { .n-center { display:none; } .n-cta.desk { display:none; } .n-mobile-right { display:flex; } .n-cta-icon { display:flex; } }
+@media (min-width: 781px) { .n-cta.desk { display:inline-flex; } .n-mobile-right { display:none; } .n-burger { display:none; } }
+
+/* ── back to top ─────────────────────────────────────── */
+.btt { position: fixed; bottom: 1.8rem; right: 1.8rem; z-index: 9000; width: 46px; height: 46px; background: var(--red); color: var(--w); display: flex; align-items: center; justify-content: center; border: none; border-radius: var(--r-btn); box-shadow: 0 4px 20px rgba(166,50,21,.28); opacity: 0; pointer-events: none; transition: opacity .3s, transform .3s, background .2s; transform: translateY(8px); }
+.btt.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.btt:hover { background: var(--red2); transform: translateY(-3px); }
+
+/* ── reveal ──────────────────────────────────────────── */
+.rv  { opacity:0; transform:translateY(32px); transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1); }
+.rvL { opacity:0; transform:translateX(-32px); transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1); }
+.rvR { opacity:0; transform:translateX(32px); transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1); }
+.rv.on, .rvL.on, .rvR.on { opacity:1; transform:none; }
+
+/* ── lucide ──────────────────────────────────────────── */
+i[data-lucide] { display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; }
+i[data-lucide] svg { stroke:currentColor; fill:none; }
+
+/* ── pill ────────────────────────────────────────────── */
+.pill { font-family:var(--f); font-size:.62rem; font-weight:500; padding:.28rem .75rem; background:var(--b1); color:var(--ink-lite); border-radius:var(--r-sm); }
+
+/* ── case study hero ─────────────────────────────────── */
+.cs-hero {
+  min-height: 85svh;
+  background: linear-gradient(148deg, #1E0E08 0%, #3A2014 50%, #2A1A0E 100%);
+  display: grid; grid-template-columns: 1fr 1fr; align-items: end;
+  gap: 0;
+  padding: 0;
+  position: relative; overflow: hidden;
+}
+@media (max-width: 720px) {
+  .cs-hero { grid-template-columns: 1fr; }
+  .cs-hero-right-img { display: none; }
+}
+.cs-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 30% 65%, rgba(183,141,119,.1) 0%, transparent 60%);
+  pointer-events: none;
+}
+.cs-hero-left { display: flex; flex-direction: column; justify-content: flex-end; position: relative; z-index: 1; padding: 8rem clamp(1rem, 3vw, 2rem) var(--sp) var(--pad); }
+.cs-hero-right-img { position: relative; z-index: 1; }
+.cs-hero-right-img img { width: 100%; height: auto; display: block; }
+.cs-back {
+  position: absolute; top: 5.2rem; left: var(--pad);
+  display: inline-flex; align-items: center; gap: .4rem;
+  font-size: .78rem; font-weight: 500; color: rgba(240,236,234,.38);
+  transition: color .25s, gap .3s; letter-spacing: .04em;
+  z-index: 1;
+}
+.cs-back:hover { color: rgba(240,236,234,.8); gap: .65rem; }
+.cs-tag-row { display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: 1.5rem; position: relative; z-index: 1; }
+.cs-tag { font-size: .62rem; font-weight: 500; padding: .3rem .85rem; background: rgba(240,236,234,.1); color: rgba(240,236,234,.55); border-radius: var(--r-sm); letter-spacing: .03em; }
+.cs-hero-num { font-size: .72rem; font-weight: 500; color: var(--amber); letter-spacing: .1em; margin-bottom: .9rem; position: relative; z-index: 1; }
+.cs-hero-title {
+  font-size: clamp(2.8rem, 8vw, 7rem);
+  font-weight: 400; letter-spacing: -.04em;
+  color: var(--w); line-height: .92;
+  margin-bottom: 1rem;
+  position: relative; z-index: 1;
+}
+.cs-hero-title em { font-style: normal; color: var(--amber); }
+.cs-hero-sub {
+  font-size: clamp(.92rem, 1.7vw, 1.2rem);
+  font-weight: 300; color: rgba(240,236,234,.45);
+  max-width: 52ch; line-height: 1.7;
+  position: relative; z-index: 1;
+}
+
+/* ── meta strip ──────────────────────────────────────── */
+.cs-meta-strip {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: var(--bm);
+}
+@media (max-width: 640px) { .cs-meta-strip { grid-template-columns: 1fr 1fr; } }
+.cs-meta-cell { background: var(--b2); padding: 1.5rem 1.8rem; }
+.cs-meta-label { font-size: .6rem; font-weight: 600; color: var(--red); letter-spacing: .09em; text-transform: uppercase; margin-bottom: .35rem; }
+.cs-meta-val { font-size: .95rem; font-weight: 600; color: var(--ink); }
+
+/* ── section base ────────────────────────────────────── */
+.cs-sec { padding: var(--sp) var(--pad); }
+.cs-lbl { font-size: .62rem; font-weight: 600; color: var(--red); letter-spacing: .1em; text-transform: uppercase; margin-bottom: .7rem; display: block; }
+.cs-h2 { font-size: clamp(1.7rem, 3.8vw, 3rem); font-weight: 400; letter-spacing: -.03em; color: var(--ink); line-height: 1.08; margin-bottom: 1.2rem; }
+.cs-body { font-size: clamp(.95rem, 1.6vw, 1.08rem); font-weight: 300; color: var(--ink-mid); line-height: 1.8; max-width: 64ch; }
+.cs-body strong { font-weight: 700; color: var(--ink); }
+.cs-body + .cs-body { margin-top: .9rem; }
+
+/* ── layouts ─────────────────────────────────────────── */
+.cs-2col { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2.5rem, 6vw, 6rem); align-items: start; margin-top: clamp(2.5rem, 5vw, 4rem); }
+@media (max-width: 720px) { .cs-2col { grid-template-columns: 1fr; gap: 2rem; } }
+
+/* ── images ──────────────────────────────────────────── */
+.cs-img { overflow: hidden; }
+.cs-img img { width: 100%; height: auto; display: block; transition: transform .7s cubic-bezier(.16,1,.3,1); }
+.cs-img:hover img { transform: scale(1.025); }
+.cs-img-cap { font-size: .68rem; color: var(--ink-lite); margin-top: .55rem; padding-top: .55rem; border-top: 1px solid var(--bm); }
+.cs-img-full { overflow: hidden; margin-top: clamp(2.5rem, 5vw, 4rem); }
+.cs-img-full img { width: 100%; height: auto; display: block; transition: transform .7s cubic-bezier(.16,1,.3,1); }
+.cs-img-full:hover img { transform: scale(1.015); }
+.cs-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-top: clamp(2rem, 4vw, 3.5rem); }
+@media (max-width: 560px) { .cs-grid-2 { grid-template-columns: 1fr; } }
+.cs-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: clamp(2rem, 4vw, 3.5rem); }
+@media (max-width: 900px) { .cs-grid-4 { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) { .cs-grid-4 { grid-template-columns: 1fr; } }
+
+/* ── callout ─────────────────────────────────────────── */
+.cs-callout { padding: 1.8rem 2.4rem; background: var(--b2); border-left: 3px solid var(--red); margin: clamp(2rem, 4vw, 3rem) 0 0; }
+.cs-callout p { font-size: clamp(1rem, 2vw, 1.35rem); font-weight: 300; color: var(--ink); line-height: 1.5; font-style: italic; }
+.cs-callout cite { display: block; font-size: .68rem; color: var(--red); font-style: normal; margin-top: .65rem; letter-spacing: .05em; }
+
+/* ── personas ────────────────────────────────────────── */
+.persona-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: clamp(2.5rem, 5vw, 4rem); }
+@media (max-width: 900px) { .persona-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .persona-grid { grid-template-columns: 1fr; } }
+.persona-card { background: var(--w); overflow: hidden; transition: box-shadow .3s; }
+.persona-card:hover { box-shadow: 0 6px 28px rgba(42,28,22,.1); }
+.persona-img { overflow: hidden; }
+.persona-img img { width: 100%; height: auto; display: block; transition: transform .6s cubic-bezier(.16,1,.3,1); }
+.persona-card:hover .persona-img img { transform: scale(1.03); }
+
+/* ── ideation item ───────────────────────────────────── */
+.idea-item { overflow: hidden; background: var(--b2); }
+.idea-item img { width: 100%; height: auto; display: block; transition: transform .6s cubic-bezier(.16,1,.3,1); }
+.idea-item:hover img { transform: scale(1.04); }
+.idea-cap { font-size: .68rem; color: var(--ink-lite); padding: .65rem .8rem; border-top: 1px solid var(--bm); }
+
+/* ── feature grid ────────────────────────────────────── */
+.cs-feat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--bm); margin-top: clamp(2rem, 4vw, 3.5rem); }
+@media (max-width: 560px) { .cs-feat-grid { grid-template-columns: 1fr; } }
+.cs-feat { background: var(--w); padding: 2rem 1.8rem; position: relative; overflow: hidden; transition: background .3s; }
+.cs-feat::after { content:''; position:absolute; bottom:0; left:0; width:100%; height:2px; background:var(--red); transform:scaleX(0); transform-origin:left; transition:transform .4s cubic-bezier(.16,1,.3,1); }
+.cs-feat:hover { background: var(--b1); }
+.cs-feat:hover::after { transform:scaleX(1); }
+.cs-feat-n { font-size: 2.8rem; font-weight: 900; color: var(--bm); line-height: 1; margin-bottom: .65rem; }
+.cs-feat-title { font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: .4rem; }
+.cs-feat-desc { font-size: .82rem; font-weight: 300; color: var(--ink-mid); line-height: 1.65; }
+
+/* ── divider rule ────────────────────────────────────── */
+.rule { width: 3rem; height: 1.5px; background: var(--red); margin: 1.8rem 0; }
+
+/* ── footer ──────────────────────────────────────────── */
+footer { background: rgba(30,18,12,1); padding: clamp(4rem,9vw,7rem) var(--pad); text-align: center; }
+.f-headline { font-size: clamp(2rem,4.5vw,3.5rem); font-weight: 400; letter-spacing: -.03em; color: var(--w); margin-bottom: .9rem; line-height: 1.08; }
+.f-headline span { color: var(--amber); }
+.f-text { font-size: clamp(.92rem,1.5vw,1.08rem); font-weight: 300; color: rgba(240,220,210,.4); max-width: 40ch; margin: 0 auto 2rem; line-height: 1.7; }
+.f-email { display: inline-flex; align-items: center; gap: .5rem; font-size: .95rem; font-weight: 600; color: var(--amber); transition: color .25s, gap .25s; }
+.f-email:hover { color: #C4A090; gap: .8rem; }
+
+/* ── keyframes ───────────────────────────────────────── */
+@keyframes aUp { from{opacity:0;transform:translateY(26px)} to{opacity:1;transform:none} }
+</style>
+</head>
+<body>
+
+<button class="btt" id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+  <i data-lucide="chevron-up" style="width:20px;height:20px"></i>
+</button>
+
+<!-- ── nav ─────────────────────────────────────────────── -->
+<nav id="nav">
+  <a href="index.html" class="n-logo">Laura <span>Manicke</span></a>
+  <ul class="n-center">
+    <li><a href="index.html#about">About me</a></li>
+    <li><a href="index.html#projects">Projects</a></li>
+    <li><a href="manicke_CV.pdf" download>Download CV</a></li>
+  </ul>
+  <a href="https://www.linkedin.com/in/laura-manicke-7ab452407" target="_blank" rel="noopener" class="n-cta desk"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15" style="flex-shrink:0"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg><span class="n-label">LinkedIn</span></a>
+  <a href="mailto:laura.manicke@gmail.com" class="n-cta desk"><i data-lucide="mail" style="width:15px;height:15px"></i><span class="n-label">Contact</span></a>
+  <div class="n-mobile-right">
+    <a href="https://www.linkedin.com/in/laura-manicke-7ab452407" target="_blank" rel="noopener" class="n-cta-icon" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" width="17" height="17" style="flex-shrink:0"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+    <a href="mailto:laura.manicke@gmail.com" class="n-cta-icon" aria-label="Contact"><i data-lucide="mail" style="width:17px;height:17px"></i></a>
+    <button class="n-burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- mobile drawer -->
+<div class="n-drawer" id="drawer">
+  <a href="index.html#about"    onclick="closeDrawer()"><i data-lucide="user" style="width:18px;height:18px;opacity:.7"></i> About me</a>
+  <a href="index.html#projects" onclick="closeDrawer()"><i data-lucide="layout-grid" style="width:18px;height:18px;opacity:.7"></i> Projects</a>
+  <a href="manicke_CV.pdf" download onclick="closeDrawer()"><i data-lucide="download" style="width:18px;height:18px;opacity:.7"></i> Download CV</a>
+</div>
+
+<!-- ── case study hero ──────────────────────────────────── -->
+<section class="cs-hero" style="opacity:0;animation:aUp .9s .1s cubic-bezier(.16,1,.3,1) forwards">
+  <div class="cs-hero-left">
+    <div class="cs-hero-num">001 — Design Thinking</div>
+    <div class="cs-tag-row">
+      <span class="cs-tag">Design Thinking</span>
+      <span class="cs-tag">UX Design</span>
+      <span class="cs-tag">User Research</span>
+    </div>
+    <h1 class="cs-hero-title">Meat &amp;<br><em>Eat</em></h1>
+    <p class="cs-hero-sub">Creating real-world meeting opportunities for young adults who feel lonely.</p>
+  </div>
+  <div class="cs-hero-right-img">
+    <img src="images/meat%20and%20eat.png" alt="Meat &amp; Eat">
+  </div>
+</section>
+
+<!-- ── meta strip ───────────────────────────────────────── -->
+<div class="cs-meta-strip">
+  <div class="cs-meta-cell rv"><div class="cs-meta-label">Timeline</div><div class="cs-meta-val">WS 2024/25</div></div>
+  <div class="cs-meta-cell rv"><div class="cs-meta-label">Role</div><div class="cs-meta-val">UX Designer &amp; Researcher</div></div>
+  <div class="cs-meta-cell rv"><div class="cs-meta-label">Context</div><div class="cs-meta-val">LMU Design Thinking</div></div>
+  <div class="cs-meta-cell rv"><div class="cs-meta-label">Tools</div><div class="cs-meta-val">Figma · Miro · Post-Its</div></div>
+</div>
+
+<!-- ── the brief ─────────────────────────────────────────── -->
+<section class="cs-sec bg-w" style="background:var(--w); padding-top:clamp(2rem,5vw,4rem); padding-bottom:clamp(2rem,5vw,4rem)">
+  <div class="cs-2col" style="margin-top:0; grid-template-columns: 2fr 1fr">
+    <div>
+      <span class="cs-lbl rv">The Challenge</span>
+      <p class="cs-body rv">Creating an offline meeting opportunity for young adults who feel isolated in a world shaped by digital self-presentation — encouraging genuine, low-pressure encounters and authentic human connection.</p>
+    </div>
+    <div class="cs-img rvR">
+      <img src="images/designthinking/folie%200.png" alt="The design brief slide">
+      <div class="cs-img-cap">Original brief slide from the design thinking session</div>
+    </div>
+  </div>
+  <div class="cs-2col" style="grid-template-columns: 2fr 1fr">
+    <div>
+      <span class="cs-lbl rv">Research</span>
+      <p class="cs-body rv">We started by mapping the research landscape: academic studies on social media use and loneliness, news coverage, and statistics from public health reports. Key findings confirmed that the problem disproportionately affects young adults and is strongly linked to passive online consumption.</p>
+    </div>
+    <div class="cs-img rvR">
+      <img src="images/designthinking/folie%203.png" alt="Research sources on youth loneliness">
+      <div class="cs-img-cap">Research sources: academic papers and news articles on loneliness among young adults</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── research ───────────────────────────────────────────── -->
+<section class="cs-sec" style="background:var(--b1); padding-top:clamp(2rem,5vw,3.5rem); padding-bottom:clamp(2rem,5vw,3.5rem)">
+  <div class="cs-feat-grid rv" style="grid-template-columns:repeat(4,1fr); margin-top:0">
+    <div class="cs-feat">
+      <div class="cs-feat-n">01</div>
+      <div class="cs-feat-title">Transition problem</div>
+      <div class="cs-feat-desc">Young adults struggle to move from digital interaction to real-life connection — the threshold for first contact is too high.</div>
+    </div>
+    <div class="cs-feat">
+      <div class="cs-feat-n">02</div>
+      <div class="cs-feat-title">Offline preference</div>
+      <div class="cs-feat-desc">Users feel shaped and overwhelmed by the digital world — they actively want offline spaces to be themselves without performance pressure.</div>
+    </div>
+    <div class="cs-feat">
+      <div class="cs-feat-n">03</div>
+      <div class="cs-feat-title">Shared context</div>
+      <div class="cs-feat-desc">Shared activities — especially meals — reduce social anxiety by giving people a built-in focus that takes the pressure off direct conversation.</div>
+    </div>
+    <div class="cs-feat">
+      <div class="cs-feat-n">04</div>
+      <div class="cs-feat-title">Safety &amp; trust</div>
+      <div class="cs-feat-desc">For the experience to work, participants need to feel safe — clear social norms, structured environments, and light facilitation are essential.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── target group ───────────────────────────────────────── -->
+<section class="cs-sec" style="background:var(--w); padding-top:clamp(2rem,5vw,3.5rem); padding-bottom:clamp(2rem,5vw,3.5rem)">
+  <span class="cs-lbl rv">Target Group</span>
+  <div class="rv" style="display:flex; justify-content:center; margin-top:0">
+    <div class="cs-img" style="max-width:60%"><img src="images/designthinking/seite%201.png" alt="Word cloud mapping the target group's life context" style="width:100%; height:auto; display:block;"></div>
+  </div>
+</section>
+
+<!-- ── personas ───────────────────────────────────────────── -->
+<section class="cs-sec" style="background:var(--b1); padding-top:clamp(2rem,5vw,3.5rem); padding-bottom:clamp(2rem,5vw,3.5rem)">
+  <span class="cs-lbl rv">User Personas</span>
+<p class="cs-body rv" style="max-width:none; white-space:nowrap">We developed three detailed personas to ground our design decisions in real human stories.</p>
+  <div class="persona-grid" style="margin-top:1.8rem">
+    <div class="persona-card rv">
+      <div class="persona-img">
+        <img src="images/designthinking/Marie.png" alt="Persona: Marie Maurer">
+      </div>
+    </div>
+    <div class="persona-card rv">
+      <div class="persona-img">
+        <img src="images/designthinking/sam.png" alt="Persona: Sam Müller">
+      </div>
+    </div>
+    <div class="persona-card rv">
+      <div class="persona-img">
+        <img src="images/designthinking/phil.png" alt="Persona: Phillip Weber">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ideation ───────────────────────────────────────────── -->
+<section class="cs-sec" style="background:var(--w); padding-top:clamp(3rem,7vw,6rem); padding-bottom:clamp(3rem,7vw,6rem)">
+  <span class="cs-lbl rv">Ideation</span>
+  <div class="cs-2col" style="grid-template-columns: 1fr 2fr; margin-top: .8rem">
+    <div>
+      <p class="cs-body rv">Our <strong>ideation phase</strong> was deliberately messy and divergent. Working in groups with Post-Its and sketches, we explored dozens of directions — from digital matchmaking apps to physical community boards. The ideas were rated, clustered, and refined across several rounds.</p>
+    </div>
+    <div class="rvR" style="display:flex; gap:1rem; align-items:flex-start; justify-content:flex-end">
+      <div class="cs-img" style="flex-shrink:0"><img src="images/designthinking/folie%204.png" alt="Ideation sticky notes overview" style="height:300px; width:auto; display:block;"></div>
+      <div class="cs-img" style="flex-shrink:0"><img src="images/designthinking/idee4.png" alt="Idea sketch: Friending Restaurant concept" style="height:300px; width:auto; display:block;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── the concept ────────────────────────────────────────── -->
+<section class="cs-sec" style="background:var(--b1); padding-top:clamp(2rem,5vw,3.5rem); padding-bottom:clamp(2rem,5vw,3.5rem)">
+  <span class="cs-lbl rv">The Solution</span>
+  <div class="cs-2col" style="grid-template-columns: 1fr 2fr; margin-top: .8rem">
+    <div>
+      <p class="cs-body rv"><strong>Meat &amp; Eat</strong> is a recurring social dinner format for young adults (18–26), designed to encourage real-life connection through shared Friday evening dinners at different restaurants across Munich. Participants sign up via Instagram and receive the location shortly before the event, creating a relaxed and slightly unexpected social experience.</p>
+    </div>
+    <div class="cs-img rvR" style="display:flex; justify-content:flex-end">
+      <img src="images/designthinking/folie%207.png" alt="Event format and location concept slide" style="height:280px; width:auto; display:block;">
+    </div>
+  </div>
+</section>
+
+<!-- ── key features ───────────────────────────────────────── -->
+<section class="cs-sec" style="background:var(--w); padding-top:clamp(2rem,5vw,3.5rem); padding-bottom:clamp(5rem,10vw,9rem)">
+  <span class="cs-lbl rv">Key Features</span>
+<div class="cs-2col" style="margin-top:1.5rem; align-items:stretch">
+    <div class="cs-img rvL" style="display:flex; flex-direction:column">
+      <img src="images/designthinking/folie%205.png" alt="Team structure: Awareness Team and Undercover Moderators" style="flex:1; object-fit:cover">
+      <div class="cs-img-cap">Event team structure — Awareness Team and Undercover Moderators working in the background</div>
+    </div>
+    <div class="cs-img rvR" style="display:flex; flex-direction:column">
+      <img src="images/designthinking/folie%206.png" alt="Problem-solution pairs for common social barriers" style="width:auto; max-width:100%; height:auto; display:block; margin:0 auto">
+      <div class="cs-img-cap" style="margin-top:auto">Problem-solution mapping for shyness, group clustering, orientation and inappropriate behaviour</div>
+    </div>
+  </div>
+  <div class="cs-feat-grid" style="margin-top:clamp(5rem,9vw,8rem)">
+    <div class="cs-feat rv">
+      <div class="cs-feat-n">01</div>
+      <div class="cs-feat-title">Undercover Moderators</div>
+      <div class="cs-feat-desc">One trained moderator per table stays anonymous — sparking conversations, including shy guests, and monitoring the atmosphere without creating performance pressure.</div>
+    </div>
+    <div class="cs-feat rv">
+      <div class="cs-feat-n">02</div>
+      <div class="cs-feat-title">Awareness Team</div>
+      <div class="cs-feat-desc">A small organisational team handles registration, moderator briefing, and on-site check-in — ensuring smooth flow and a point of contact for any issues.</div>
+    </div>
+    <div class="cs-feat rv">
+      <div class="cs-feat-n">03</div>
+      <div class="cs-feat-title">Mixed Seating</div>
+      <div class="cs-feat-desc">Seats are assigned randomly to prevent existing friend groups from clustering, encouraging genuine new connections across the whole table.</div>
+    </div>
+    <div class="cs-feat rv">
+      <div class="cs-feat-n">04</div>
+      <div class="cs-feat-title">Conversation Starters</div>
+      <div class="cs-feat-desc">Topic cards at each table give guests a natural way to break the ice — especially helpful for introverted or shy participants in the first 30 minutes.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── footer ─────────────────────────────────────────────── -->
+<footer id="contact">
+  <div class="f-headline">Get in <span>touch</span></div>
+  <p class="f-text">I'm always open to new projects, collaborations, and creative conversations.</p>
+  <a href="mailto:laura.manicke@gmail.com" class="f-email"><i data-lucide="mail" style="width:18px;height:18px"></i> laura.manicke@gmail.com</a>
+</footer>
+
+<script>
+const navEl = document.getElementById('nav');
+const btt   = document.getElementById('btt');
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  navEl.classList.toggle('up', y > 50);
+  btt.classList.toggle('show', y > 400);
+}, { passive:true });
+
+const burger = document.getElementById('burger');
+const drawer = document.getElementById('drawer');
+burger.addEventListener('click', () => {
+  burger.classList.toggle('open');
+  drawer.classList.toggle('open');
+  document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+});
+function closeDrawer() {
+  burger.classList.remove('open');
+  drawer.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const sibs = [...e.target.parentElement.children]
+      .filter(c => c.classList.contains('rv') || c.classList.contains('rvL') || c.classList.contains('rvR'));
+    const i = sibs.indexOf(e.target);
+    setTimeout(() => e.target.classList.add('on'), i * 80);
+    io.unobserve(e.target);
+  });
+}, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.rv,.rvL,.rvR').forEach(el => io.observe(el));
+
+lucide.createIcons();
+</script>
+</body>
+</html>
